@@ -17,10 +17,11 @@ signals:
     void disconnected();
     void stateChanged(QAbstractSocket::SocketState);
     void errorOccurred(QAbstractSocket::SocketError);
+    void dataReady(QByteArray);
 
 private slots:
     void socketStateChanged(QAbstractSocket::SocketState state);
-
+    void socketReadyRead();
 
 private:
     QTcpSocket socket;

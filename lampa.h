@@ -29,6 +29,8 @@ private slots:
     void lampaDisconnected();
     void lampaStateChanged(QAbstractSocket::SocketState);
     void lampaErrorOccurred(QAbstractSocket::SocketError);
+    void lampaDataReady(QByteArray data);
+
 
 private:
     Ui::Lampa *ui;

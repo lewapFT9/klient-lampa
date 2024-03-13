@@ -78,11 +78,18 @@ void Lampa::lampaErrorOccurred(QAbstractSocket::SocketError error)
 
 }
 
+void Lampa::lampaDataReady(QByteArray data)
+{
+    ui->commands->addItem(QString(data));
+}
+
 void Lampa::setKontroler()
 {
     connect(&kontroler,&Kontroler::connected,this, &Lampa::lampaConnected);
     connect(&kontroler,&Kontroler::disconnected,this, &Lampa::lampaDisconnected);
     connect(&kontroler,&Kontroler::stateChanged,this, &Lampa::lampaStateChanged);
     connect(&kontroler,&Kontroler::errorOccurred,this, &Lampa::lampaErrorOccurred);
+    connect(&kontroler,&Kontroler::dataReady,this, &Lampa::lampaDataReady);
+
 }
 

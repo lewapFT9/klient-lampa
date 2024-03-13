@@ -7,7 +7,7 @@ Kontroler::Kontroler(QObject *parent)
     connect(&socket,&QTcpSocket::disconnected,this, &Kontroler::disconnected);
     connect(&socket,&QTcpSocket::stateChanged,this, &Kontroler::socketStateChanged);
     connect(&socket,&QTcpSocket::errorOccurred,this, &Kontroler::errorOccurred);
-
+    connect(&socket,&QTcpSocket::readyRead,this, &Kontroler::socketReadyRead);
 
 }
 
@@ -40,4 +40,10 @@ void Kontroler::socketStateChanged(QAbstractSocket::SocketState state)
         socket.close();
     }
     emit stateChanged(state);
+}
+
+void Kontroler::socketReadyRead()
+{
+    auto data=socket.readAll();
+    emit dataReady(data);
 }
