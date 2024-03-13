@@ -10,6 +10,8 @@ class Kontroler : public QObject
 public:
     explicit Kontroler(QObject *parent = nullptr);
     void connectWithServer(QString ip, int port);
+    void disconnectFromServer();
+    QAbstractSocket::SocketState currentState();
 signals:
     void connected();
     void disconnected();

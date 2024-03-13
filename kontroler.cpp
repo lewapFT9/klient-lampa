@@ -24,6 +24,16 @@ void Kontroler::connectWithServer(QString ip, int port)
     socket.connectToHost(serverIp,ServerPort);
 }
 
+void Kontroler::disconnectFromServer()
+{
+    socket.close();
+}
+
+QAbstractSocket::SocketState Kontroler::currentState()
+{
+    return socket.state();
+}
+
 void Kontroler::socketStateChanged(QAbstractSocket::SocketState state)
 {
     if(state==QAbstractSocket::UnconnectedState){

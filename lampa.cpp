@@ -38,20 +38,26 @@ void Lampa::on_IpAddress_textChanged(const QString &arg1)
 
 void Lampa::on_connect_clicked()
 {
-    auto ip=ui->IpAddress->text();
-    auto port=ui->port->value();
-    kontroler.connectWithServer(ip,port);
+    if(kontroler.currentState()==QAbstractSocket::ConnectedState)
+        kontroler.disconnectFromServer();
+    else{
+        auto ip=ui->IpAddress->text();
+        auto port=ui->port->value();
+        kontroler.connectWithServer(ip,port);
+    }
 }
 
 void Lampa::lampaConnected()
 {
     ui->messages->addItem("Lampa Connected");
+    ui->connect->setText("Disconnect");
     style()->polish(ui->messages);
 }
 
 void Lampa::lampaDisconnected()
 {
     ui->messages->addItem("Lampa Disconnected");
+    ui->connect->setText("Connect");
     style()->polish(ui->messages);
 
 }
