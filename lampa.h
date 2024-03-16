@@ -30,11 +30,13 @@ private slots:
     void lampaStateChanged(QAbstractSocket::SocketState);
     void lampaErrorOccurred(QAbstractSocket::SocketError);
     void lampaDataReady(QByteArray data);
-
+    void action(QByteArray data);
 
 private:
     Ui::Lampa *ui;
     Kontroler kontroler;
+    QString lightStatus;
+    QString lightColor;
 
     void setKontroler();
 };

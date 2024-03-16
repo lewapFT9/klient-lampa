@@ -12,6 +12,7 @@ public:
     void connectWithServer(QString ip, int port);
     void disconnectFromServer();
     QAbstractSocket::SocketState currentState();
+    void send(QString message);
 signals:
     void connected();
     void disconnected();

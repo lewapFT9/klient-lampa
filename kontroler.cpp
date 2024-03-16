@@ -34,6 +34,11 @@ QAbstractSocket::SocketState Kontroler::currentState()
     return socket.state();
 }
 
+void Kontroler::send(QString message)
+{
+    socket.write(message.toUtf8());
+}
+
 void Kontroler::socketStateChanged(QAbstractSocket::SocketState state)
 {
     if(state==QAbstractSocket::UnconnectedState){

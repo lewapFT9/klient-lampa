@@ -2,6 +2,7 @@
 #include "ui_lampa.h"
 
 #include <QMetaEnum>
+#include <QMessageBox>
 
 
 Lampa::Lampa(QWidget *parent)
@@ -10,6 +11,8 @@ Lampa::Lampa(QWidget *parent)
 {
     ui->setupUi(this);
     setKontroler();
+    lightStatus = "Off";
+    lightColor = "Red";
 }
 
 Lampa::~Lampa()
@@ -45,6 +48,8 @@ void Lampa::on_connect_clicked()
         auto port=ui->port->value();
         kontroler.connectWithServer(ip,port);
     }
+    auto message = "Lampa";
+    kontroler.send(message);
 }
 
 void Lampa::lampaConnected()
@@ -83,6 +88,29 @@ void Lampa::lampaDataReady(QByteArray data)
     ui->commands->addItem(QString(data));
 }
 
+void Lampa::action(QByteArray data)
+{
+    QString command= QString(data);
+    if(command=="Turn off the light" && lightStatus !="Off"){
+        QMessageBox::information(this,"Command","Turning off the light");
+        ui->commands->addItem("Done");
+        lightStatus = "Off";
+    }
+    else if(command=="Turn off the light" && lightStatus =="Off"){
+        QMessageBox::information(this,"Command","Light is already off");
+        ui->commands->addItem("Done");
+    }
+    else if(command=="Turn on the light" && lightStatus !="On"){
+        QMessageBox::information(this,"Command","Turning on the light");
+        ui->commands->addItem("Done");
+        lightStatus = "On";
+    }
+    else if(command=="Turn on the light" && lightStatus =="On"){
+        QMessageBox::information(this,"Command","Light is already on");
+        ui->commands->addItem("Done");
+    }
+}
+
 void Lampa::setKontroler()
 {
     connect(&kontroler,&Kontroler::connected,this, &Lampa::lampaConnected);
@@ -90,6 +118,8 @@ void Lampa::setKontroler()
     connect(&kontroler,&Kontroler::stateChanged,this, &Lampa::lampaStateChanged);
     connect(&kontroler,&Kontroler::errorOccurred,this, &Lampa::lampaErrorOccurred);
     connect(&kontroler,&Kontroler::dataReady,this, &Lampa::lampaDataReady);
+    connect(&kontroler,&Kontroler::dataReady,this, &Lampa::action);
+
 
 }
 
